@@ -189,9 +189,11 @@ void OTClient::ProcessMessageOut(OTServerContract* pServerContract, Nym* pNym,
 {
     String strMessage(theMessage);
 
+
+    // Bunch of debug crap. Never use this in anything real.
     std::ofstream myfile;
     std::string filename;
-    filename += "/tmp/msgs/";
+    filename += "/tmp/msgs/requests/";
     filename += std::to_string(std::rand());
     myfile.open(filename);
     myfile << strMessage;
@@ -7526,6 +7528,19 @@ bool OTClient::processServerReply(std::shared_ptr<Message> reply,
                                                    // internally.
 {
     Message& theReply = *reply;
+
+
+    // Bunch of debug crap. Never use this in anything real.
+    String strMessage(theReply);
+    std::ofstream myfile;
+    std::string filename;
+    filename += "/tmp/msgs/responses/";
+    filename += std::to_string(std::rand());
+    myfile.open(filename);
+    myfile << strMessage;
+    myfile.close();
+
+
     OT_ASSERT(nullptr != m_pConnection);
 
     OTServerConnection& theConnection = *m_pConnection;
