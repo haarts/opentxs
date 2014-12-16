@@ -164,6 +164,7 @@
 #include <memory>
 #include <cstdio>
 #include <cinttypes>
+#include <fstream>
 
 namespace opentxs
 {
@@ -187,6 +188,15 @@ void OTClient::ProcessMessageOut(OTServerContract* pServerContract, Nym* pNym,
 {
     String strMessage(theMessage);
 
+    std::ofstream myfile;
+    std::string filename;
+    filename += "/tmp/msgs/";
+    filename += std::to_string(std::rand());
+    myfile.open(filename);
+    myfile << strMessage;
+    myfile.close();
+
+
     // WHAT DOES THIS MEAN?
 
     // It means that later, if a message with a certain request number
@@ -205,8 +215,9 @@ void OTClient::ProcessMessageOut(OTServerContract* pServerContract, Nym* pNym,
     // get my fucking transaction numbers back again!
 
     std::unique_ptr<Message> pMsg(new Message());
-    if (pMsg->LoadContractFromString(strMessage))
+    if (pMsg->LoadContractFromString(strMessage)) {
         m_MessageOutbuffer.AddSentMessage(*(pMsg.release()));
+    }
 
     if (!m_pConnection) {
         int32_t port = 0;
