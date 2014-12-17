@@ -170,7 +170,7 @@ public:
               const Message& theMessage);
 
 private:
-    bool send(const OTEnvelope& envelope);
+    bool send(const String& envelope);
     bool receive(std::string& reply);
 
 private:

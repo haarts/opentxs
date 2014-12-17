@@ -212,10 +212,8 @@ void OTServerConnection::send(OTServerContract* pServerContract, Nym* pNym,
     const Nym* pServerNym = pServerContract->GetContractPublicNym();
     OT_ASSERT(nullptr != pServerNym);
 
-    OTEnvelope theEnvelope;
-    String strEnvelopeContents;
-    theMessage.SaveContractRaw(strEnvelopeContents);
-    theEnvelope.Seal(*pServerNym, strEnvelopeContents);
+    String strContents;
+    theMessage.SaveContractRaw(strContents);
 
     otOut << "\n=====>BEGIN Sending " << theMessage.m_strCommand
           << " message via ZMQ... Request number: "
@@ -223,7 +221,7 @@ void OTServerConnection::send(OTServerContract* pServerContract, Nym* pNym,
 
     m_pServerContract = pServerContract;
     m_pNym = pNym;
-    send(theEnvelope);
+    send(strContents);
 
     otWarn << "<=====END Finished sending " << theMessage.m_strCommand
            << " message (and hopefully receiving "
@@ -231,7 +229,7 @@ void OTServerConnection::send(OTServerContract* pServerContract, Nym* pNym,
            << "\n\n";
 }
 
-bool OTServerConnection::send(const OTEnvelope& theEnvelope)
+bool OTServerConnection::send(const String& theEnvelope)
 {
     OTASCIIArmor ascEnvelope(theEnvelope);
 
