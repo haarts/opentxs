@@ -136,6 +136,7 @@
 #include <cppzmq/zmq.hpp>
 #include <memory>
 #include <string>
+#include <opentxs/core/String.hpp>
 
 namespace opentxs
 {
