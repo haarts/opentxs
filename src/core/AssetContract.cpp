@@ -874,7 +874,11 @@ void AssetContract::CreateContents()
                               m_strIssueType.Get());
 
     // [currency|shares]
-    if (m_bIsCurrency)
+    if (m_bIsCurrency) {
+      otErr << "MOFO WRITE" << std::endl;
+      otErr << m_strCurrencyDecimalPower.Get() << std::endl;
+      otErr << "MOFO WRITE END" << std::endl;
+
         m_xmlUnsigned.Concatenate(
             "<currency name=\"%s\" tla=\"%s\" symbol=\"%s\" type=\"%s\" "
             "factor=\"%s\" decimalPower=\"%s\" fraction=\"%s\" />\n\n",
@@ -882,12 +886,14 @@ void AssetContract::CreateContents()
             m_strCurrencySymbol.Get(), m_strCurrencyType.Get(),
             m_strCurrencyFactor.Get(), m_strCurrencyDecimalPower.Get(),
             m_strCurrencyFraction.Get());
-    else if (m_bIsShares)
+    }
+    else if (m_bIsShares) {
         m_xmlUnsigned.Concatenate(
             "<shares name=\"%s\" symbol=\"%s\" type=\"%s\" "
             "issueDate=\"%s\" />\n\n",
             m_strCurrencyName.Get(), m_strCurrencySymbol.Get(),
             m_strCurrencyType.Get(), m_strIssueDate.Get());
+    }
 
     // This is where OTContract scribes m_xmlUnsigned with its keys, conditions,
     // etc.
@@ -948,6 +954,11 @@ int32_t AssetContract::ProcessXMLNode(IrrXMLReader*& xml)
 
         m_strCurrencyTLA = xml->getAttributeValue("tla");
         m_strCurrencyFactor = xml->getAttributeValue("factor");
+        otErr << "MOFO READ" << std::endl;
+        otErr << xml->getAttributeValue("decimalPower");
+        otErr << xml->getAttributeValue("decimal_power");
+        otErr << "MOFO READ DONE" << std::endl;
+
         m_strCurrencyDecimalPower = xml->getAttributeValue("decimalPower");
         m_strCurrencyFraction = xml->getAttributeValue("fraction");
 
